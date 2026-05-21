@@ -6,7 +6,7 @@ locals {
   github_repo = "bespin-multi-cloud-3-aws/gallery"
 
   iamrole = {
-    name       = "gha"
+    name       = "gha1"
     policy_arn = data.aws_iam_policy.admin_access.arn
   }
 
