@@ -4,4 +4,4 @@ output "iamrole" {
       arn = aws_iam_role.this.arn
     }
   }
-}
+}#
