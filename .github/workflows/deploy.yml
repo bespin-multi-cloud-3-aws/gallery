@@ -8,6 +8,7 @@ on:
 permissions:
   contents: read
   id-token: write
+  pull-requests: write
 
 concurrency:
   group: tf-core-10.02.loab01-deploy
