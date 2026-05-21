@@ -11,7 +11,7 @@ locals {
   }
 
   iamoidcp = {
-    name            = "gha"
+    name            = "gha-1"
     url             = "https://token.actions.githubusercontent.com"
     client_id_list  = ["sts.amazonaws.com"]
     thumbprint_list = ["ffffffffffffffffffffffffffffffffffffffff"]

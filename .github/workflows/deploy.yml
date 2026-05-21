@@ -1,13 +1,13 @@
-name: 10.01.lab01 deploy
+name: gallery-1 deploy
 
 on:
   push:             #trigger: push 시
     branches: [main]
-    paths: ["ch10/01/lab01/*.tf"]
+    paths: ["lab01/infra/*.tf"]
 
 env:
   TF_VERSION: "1.14.7"
-  WORKING_DIR: "ch10/01/lab01"
+  WORKING_DIR: "lab01/infra"
 
 jobs:
   my_apply:           #job 정의

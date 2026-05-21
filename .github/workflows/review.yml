@@ -1,14 +1,14 @@
-name: 10.01.lab01 review
+name: gallery-1 review
 
 on:
   pull_request:   #trigger: PR 생성시
     branches: [main]
     types: [opened, synchronize]
-    paths: ["infra/01/lab01/*.tf"]
+    paths: ["lab01/infra/*.tf"]
 
 env:
   TF_VERSION: "1.14.7"
-  WORKING_DIR: "ch10/01/lab01"
+  WORKING_DIR: "lab01/infra"
 
 jobs:
   my_plan:           #job 정의
