@@ -3,7 +3,7 @@ locals {
   project   = "lab02"
   namespace = "${local.org}-${local.project}"
 
-  github_repo = "jeongbeen1-svg/Terraform-repo"
+  github_repo = "bespin-multi-cloud-3-aws/gallery"
 
   iamrole = {
     name       = "gha"
