@@ -3,7 +3,7 @@ name: "gallery-2 review"
 on:
   push:
     branches:
-      - jb/wf
+      - main
     paths:
       - "lab02/**.tf"
 

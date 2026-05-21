@@ -3,7 +3,7 @@ name: "gallery-2 review"
 on:
   push:
     branches:
-      - jb/wf # ◀ 오직 main 브랜치에 머지/푸시될 때만 자동 배포(apply) 작동!
+      - main # ◀ 오직 main 브랜치에 머지/푸시될 때만 자동 배포(apply) 작동!
     paths:
       - "lab02/**.tf" # ◀ lab02 폴더 밑의 루트 코드 및 모듈 코드가 바뀔 때만 감시
 
