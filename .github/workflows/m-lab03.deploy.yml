@@ -1,0 +1,46 @@
+name: "m-lab03 Infrastructure Deploy"
+
+on:
+  push:
+    branches:
+      - main # ◀ 오직 main 브랜치에 머지/푸시될 때만 자동 배포(apply) 작동!
+    paths:
+      - "m-lab03/**.tf" # ◀ m-lab03 폴더 밑의 루트 코드 및 모듈 코드가 바뀔 때만 감시
+
+permissions:
+  contents: read
+  id-token: write
+  pull-requests: write
+
+env:
+  TF_VERSION: "1.14.7"
+  AWS_REGION: "ap-northeast-2"
+  WORKING_DIR: "m-lab03" # ◀ 루트 main.tf가 있는 위치
+
+jobs:
+  terraform-apply:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ${{ env.WORKING_DIR }}
+        
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: ${{ env.TF_VERSION }}
+
+      - name: Configure AWS Credentials (OIDC)
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_IAMROLE_ARN }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Terraform Init
+        run: terraform init -input=false
+
+      - name: Terraform Apply
+        run: terraform apply -auto-approve -input=false
