@@ -1,8 +1,9 @@
 name: "gallery-1 deploy"
 
-on:
-  push:
-    branches: ["*"]
+on: 
+  pull_request:
+    branches: [main]
+    types: [opened, synchronize]
     paths: ["lab01/infra/*.tf"]
 
 permissions:
