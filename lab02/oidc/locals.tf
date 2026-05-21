@@ -9,7 +9,7 @@ locals {
     name       = "gha"
     policy_arn = data.aws_iam_policy.admin_access.arn
   }
-
+#
   iamoidcp = {
     name            = "gha-1"
     url             = "https://token.actions.githubusercontent.com"
