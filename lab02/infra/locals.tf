@@ -2,7 +2,7 @@ locals {
   org       = "gallery-2"
   project   = "lab02"
   namespace = "${local.org}-${local.project}"
-
+#
   vpc = {
     name = "main"
 
