@@ -1,22 +1,30 @@
-name: gallery-1 deploy
+name: "gallery-1 deploy"
 
 on:
-  push:             #trigger: push 시
+  push:
     branches: [main]
     paths: ["lab01/infra/*.tf"]
-  
-  workflow_dispatch:
+
+permissions:
+  contents: read
+  id-token: write
+
+concurrency:
+  group: tf-core-10.02.loab01-deploy
+  cancel-in-progress: false
 
 env:
   TF_VERSION: "1.14.7"
+  AWS_REGION: "ap-northeast-2"
   WORKING_DIR: "lab01/infra"
 
 jobs:
-  my_apply:           #job 정의
+  apply:
     runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: ${{ env.WORKING_DIR }}
+        
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -26,8 +34,14 @@ jobs:
         with:
           terraform_version: ${{ env.TF_VERSION }}
 
+      - name: Configure AWS Credentials (OIDC)
+        uses: aws-actions/configure-aws-credentials@v6
+        with:
+          role-to-assume: ${{ secrets.AWS_IAMROLE_ARN }}
+          aws-region: ${{ env.AWS_REGION }}
+
       - name: Terraform Init
-        run: terraform init
+        run: terraform init -input=false
 
       - name: Terraform Apply
-        run: terraform apply -auto-approve
+        run: terraform apply -input=false -auto-approve
