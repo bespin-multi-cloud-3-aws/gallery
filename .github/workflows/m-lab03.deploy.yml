@@ -1,11 +1,11 @@
-name: "m-lab03 Infrastructure Deploy"
+name: "gallery-2 review"
 
 on:
   push:
     branches:
       - jb/wf # ◀ 오직 main 브랜치에 머지/푸시될 때만 자동 배포(apply) 작동!
     paths:
-      - "m-lab03/**.tf" # ◀ m-lab03 폴더 밑의 루트 코드 및 모듈 코드가 바뀔 때만 감시
+      - "lab02/**.tf" # ◀ lab02 폴더 밑의 루트 코드 및 모듈 코드가 바뀔 때만 감시
 
 permissions:
   contents: read
@@ -15,7 +15,7 @@ permissions:
 env:
   TF_VERSION: "1.14.7"
   AWS_REGION: "ap-northeast-2"
-  WORKING_DIR: "m-lab03" # ◀ 루트 main.tf가 있는 위치
+  WORKING_DIR: "lab02/infra" # ◀ 루트 main.tf가 있는 위치
 
 jobs:
   terraform-apply:
@@ -36,7 +36,7 @@ jobs:
       - name: Configure AWS Credentials (OIDC)
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          role-to-assume: ${{ secrets.AWS_IAMROLE_ARN }}
+          role-to-assume: ${{ secrets.JB_ARN }}
           aws-region: ${{ env.AWS_REGION }}
 
       - name: Terraform Init
