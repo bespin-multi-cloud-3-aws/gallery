@@ -1,4 +1,4 @@
-name: "gallery-1 review"
+name: "gallery lab03 review"
 
 on:
   pull_request:
@@ -12,11 +12,49 @@ permissions:
   pull-requests: write
 
 env:
-  TF_VERSION: "1.14.7"
+  TF_VERSION: "1.15.2"
   AWS_REGION: "ap-northeast-2"
   WORKING_DIR: "lab03/infra"
 
 jobs:
+  quality-gate:
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: ${{ env.WORKING_DIR }}
+        
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v4
+        with:
+          terraform_version: ${{ env.TF_VERSION }}
+          terraform_wrapper: false
+
+      - name: Format Check
+        run: terraform fmt -check -recursive
+
+      - name: Init (backend=false)
+        run: terraform init -backend=false
+
+      - name: Validate
+        run: terraform validate
+
+      - name: Setup TFLint
+        uses: terraform-linters/setup-tflint@v4
+
+      - name: Run TFLint
+        run: tflint --init && tflint --recursive
+
+      - name: Security Scan
+        uses: aquasecurity/tfsec-action@v1.0.3
+        with:
+          working_directory: ${{ env.WORKING_DIR }}
+          soft_fail: true
+          
   plan:
     runs-on: ubuntu-latest
     defaults:
