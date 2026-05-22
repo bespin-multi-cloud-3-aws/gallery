@@ -1,6 +1,6 @@
 locals {
   org         = "tf-core-ej"
-  project     = "gallery5"
+  project     = "g5"
   environment = var.env
 
   namespace = "${local.org}-${local.project}-${local.environment}"
