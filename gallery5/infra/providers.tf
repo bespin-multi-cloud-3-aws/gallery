@@ -1,5 +1,5 @@
 terraform {
-  required_version = ">= 1.14.0"
+  required_version = ">=1.14.0"
 
   required_providers {
     aws = {
@@ -7,14 +7,14 @@ terraform {
       version = "~> 6.0"
     }
   }
-  
+
   backend "s3" {
-    bucket       = "tf-core-tfstate-5616519818199"
-    key          = "aws-repo/lab02/infra/terraform.tfstate"
+    bucket       = "tf-core-ej-tfstate"
+    key          = "gallery5/terraform.tfstate"
     region       = "ap-northeast-2"
     encrypt      = true
     use_lockfile = true
-  }  
+  }
 }
 
 provider "aws" {
@@ -24,6 +24,7 @@ provider "aws" {
     tags = {
       Organization = local.org
       Project      = local.project
+      Environment  = local.environment
       ManagedBy    = "Terraform"
     }
   }
