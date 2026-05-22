@@ -1,6 +1,6 @@
 locals {
-  org       = "gallery-1"
-  project   = "lab01"
+  org       = "gallery"
+  project   = "lab03"
   namespace = "${local.org}-${local.project}"
 
   vpc = {
