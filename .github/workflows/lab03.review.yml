@@ -4,7 +4,7 @@ on:
   pull_request:
     branches: [main]
     types: [opened, synchronize]
-    paths: ["lab03/infra/*.tf", "lab03/infra/*.tfvars"]
+    paths: ["lab03/infra/**"]
 
 permissions:
   contents: read

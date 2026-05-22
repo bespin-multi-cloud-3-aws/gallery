@@ -9,7 +9,7 @@ terraform {
   }
 
   backend "s3" {
-    bucket       = "tf-core-tfstate-jaebok1205"
+    bucket = "tf-core-tfstate-jaebok1205"
     # key          = "env:/dev/gallery/terraform.tfstate"
     region       = "ap-northeast-2"
     encrypt      = true
@@ -23,9 +23,9 @@ provider "aws" {
   default_tags {
     tags = {
       Organization = local.org
-      Project   = local.project
-      Environment = local.environment
-      ManagedBy = "Terraform"
+      Project      = local.project
+      Environment  = local.environment
+      ManagedBy    = "Terraform"
     }
   }
 }

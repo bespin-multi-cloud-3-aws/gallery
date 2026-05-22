@@ -3,7 +3,7 @@ name: "gallery-1 deploy"
 on:
   push:
     branches: [main]
-    paths: ["lab03/infra/*.tf", "lab03/infra/*.tfvars"]
+    paths: ["lab03/infra/**"]
 
 permissions:
   contents: read

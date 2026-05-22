@@ -12,7 +12,7 @@ resource "aws_lb" "this" {
 }
 
 resource "aws_lb_listener" "this" {
-  port = local.lb.listener.port
+  port     = local.lb.listener.port
   protocol = local.lb.listener.protocol
   # protocol = "HTTP"
 
@@ -54,15 +54,15 @@ resource "aws_security_group" "this" {
   vpc_id = local.vpc_id
 
   ingress {
-    to_port = local.lb.listener.port
-    from_port = local.lb.listener.port
+    to_port     = local.lb.listener.port
+    from_port   = local.lb.listener.port
     cidr_blocks = local.lb.listener.cidr_blocks
     protocol    = "tcp"
   }
-  
+
   egress {
-    to_port = 0
-    from_port = 0
+    to_port     = 0
+    from_port   = 0
     cidr_blocks = ["0.0.0.0/0"]
     protocol    = -1
   }
