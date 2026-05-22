@@ -1,24 +1,94 @@
-name: "gallery-1 deploy"
+name: "gallery lab03 deploy"
 
 on:
   push:
     branches: [main]
-    paths: ["lab03/infra/*.tf", "lab03/infra/*.tfvars"]
+    paths: ["lab03/infra/**"]
 
 permissions:
   contents: read
   id-token: write
 
 concurrency:
-  group: tf-core-10.02.loab03-deploy
+  group: gallery-lab03-deploy
   cancel-in-progress: false
 
 env:
-  TF_VERSION: "1.14.7"
+  TF_VERSION: "1.15.2"
   AWS_REGION: "ap-northeast-2"
   WORKING_DIR: "lab03/infra"
 
 jobs:
+apply-dev:
+    runs-on: ubuntu-latest
+
+    environment: dev
+    
+    concurrency:
+      group: gallery-dev
+      cancel-in-progress: false
+
+    defaults:
+      run:
+        working-directory: ${{ env.WORKING_DIR }}
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v4
+        with:
+          terraform_version: ${{ env.TF_VERSION }}
+
+      - name: Configure AWS Credentials (OIDC)
+        uses: aws-actions/configure-aws-credentials@v6
+        with:
+          role-to-assume: ${{ secrets.AWS_IAMROLE_ARN }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Terraform Init
+        run: terraform init -backend-config="env.dev.backend.hcl"
+
+      - name: Terraform Apply
+        id: apply
+        run: terraform apply -input=false -auto-approve -var-file="env.dev.tfvars"
+
+  apply-prod:
+    runs-on: ubuntu-latest
+
+    environment: prod
+    
+    concurrency:
+      group: gallery-prod
+      cancel-in-progress: false
+
+    defaults:
+      run:
+        working-directory: ${{ env.WORKING_DIR }}
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v4
+        with:
+          terraform_version: ${{ env.TF_VERSION }}
+
+      - name: Configure AWS Credentials (OIDC)
+        uses: aws-actions/configure-aws-credentials@v6
+        with:
+          role-to-assume: ${{ secrets.AWS_IAMROLE_ARN }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Terraform Init
+        run: terraform init -backend-config="env.prod.backend.hcl"
+
+      - name: Terraform Apply
+        id: apply
+        run: terraform apply -input=false -auto-approve -var-file="env.prod.tfvars"
+
   apply:
     runs-on: ubuntu-latest
     defaults:
