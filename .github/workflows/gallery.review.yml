@@ -6,7 +6,7 @@ on:
     types: [opened, synchronize]
     paths: ["gallery5/infra/*.tf"]
 
-    # 전역 permissions가 꼬이지 않도록, 안전하게 개별 Job 단위로 권한을 하향 조정/재명시
+# 전역 permissions가 꼬이지 않도록, 안전하게 개별 Job 단위로 권한을 하향 조정/재명시
 permissions:
   contents: read
 
