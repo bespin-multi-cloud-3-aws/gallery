@@ -84,7 +84,7 @@ jobs:
           aws-region: ${{ env.AWS_REGION }}
 
       - name: Terraform Init
-        run: terraform init -input=false -backend-config="env.dev.backend.hcl"
+        run: terraform init
 
       # 깃허브 시크릿에서 가져와 가상 컴퓨터에 tfvars 파일을 임시로 구워내기
       - name: Create tfvars file from Secrets
@@ -96,7 +96,7 @@ jobs:
       # 실제 AWS를 건드리지 않고, 무엇이 추가(Add)/변경(Change)/삭제(Destroy)되는지 계획서만 뽑아냅니다.
       - name: Terraform Plan
         id: plan
-        run: terraform plan -input=false -var-file="env.dev.tfvars" -no-color
+        run: terraform plan -no-color
 
       # [선택 사항] 시각적 리뷰 편의성: Plan 결과물 요약본을 개발자가 PR 창에서 바로 보게끔 댓글로 박아줍니다.
       - name: Post Plan to Pull Request
